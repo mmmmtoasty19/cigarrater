@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1> Welcome to Cigar Rater {% if current_user.is_authenticated %} {{ current_user.username }} {% endif %}</h1>
+{% endblock %}
