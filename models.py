@@ -5,6 +5,7 @@ from flask_bcrypt import generate_password_hash
 
 from peewee import *
 
+
 DATABASE = SqliteDatabase('cigar.db')
 
 
@@ -32,7 +33,38 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 
+class Cigar(Model):
+    """Model to create a new cigar into the database"""
+    cigar_name = CharField(unique=True)
+    brand = CharField()
+    body = CharField()
+    wrapper = CharField()
+    binder = CharField()
+    filler = CharField()
+    orgin = CharField()
+
+    class Meta:
+        database = DATABASE
+
+    @classmethod
+    def create_cigar(cls, cigar_name, brand, body, wrapper, binder, filler, orgin):
+        try:  #attempt to create a new cigar, if name exisits will throught error
+            with DATABASE.transaction():  
+                cls.create(
+                    cigar_name=cigar_name,
+                    brand=brand,
+                    body=body,
+                    wrapper=wrapper,
+                    binder=binder,
+                    filler=filler,
+                    orgin=orgin
+                )
+        except IntegrityError:
+            raise ValueError("Cigar already exists")
+    
+
+
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User], safe=True)
+    DATABASE.create_tables([User, Cigar], safe=True)
     DATABASE.close()

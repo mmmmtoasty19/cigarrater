@@ -6,26 +6,46 @@
         <title>CigarRater</title>
         <link rel="stylesheet" href="/static/css/normalize.css" type="text/css">
         <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+        <script src="https://use.fontawesome.com/4de60f1073.js"></script>
     </head>
     <body>
-        <div class="container">   <!-- Main Grid Container -->
-            <div class="navbar"> 
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('logout') }}">Logout</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}">Login</a>
-                {% endif %}
-            </div>
-            <div class="content-1">
+        <header>
+            <!-- NAV BAR-->
+            <nav class="navbar">
+                <div class="navbar-wrap">
+                    <div class="brand">
+                        <h2>CigarRater</h2>  <!--Brand Place Holder -->
+                    </div>
+                    <div class="nav-items">                  
+                        {% if current_user.is_authenticated %}
+                            <a href="#" class="dropdown">Profile</a> <!-- Drop Down Menu for User Profile Options -->
+                            <ul class="dropdown-content">
+                                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            </ul>
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Login</a>
+                        {% endif %}
+                    </div>
+                        <form action="{{ url_for('search') }}" method="GET"> 
+                            <input type="text" placeholder="Find a Cigar or Brand" name="search" />
+                            <button type="submit">Search</button>
+                        </form> 
+                    
+                </div>
+            </nav>
+            <!-- End Nav Bar -->
+        </header>
+        <div class="container">   <!-- Main Grid Container -->    
+            <main class="content">
                 {% block content %}
                 {% endblock %}
-            </div>
-            <div class="content-2">[Additional Content or Menu] </div>
-            <div class="footer"> 
+            </main>
+            <aside class="sidebar">[Additional Content or Menu] </aside>
+            <footer class="footer"> 
                 <p>A Ratings App built with Flask <br>
                     by <a href="http://belangerbrothers.com">Belanger Brothers</a></p>
             
-            </div>
+            </footer>
         </div>
     </body>
 </html>

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h1>{{ keyword }}</h1>
+
+{% for cigar in results %}
+    <h2>{{cigar.cigar_name }}</h2>
+{% endfor %}
+
+<!-- Allow user to add Cigar if not found -->
+<p>Don't see what you're looking for? <br>
+   <a href="{{ url_for('new_cigar') }}"> Add it here </a>
+</p>
+{% endblock %}

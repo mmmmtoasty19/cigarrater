@@ -1,4 +1,80 @@
+/* Page Colors
+========================================================== */
+
+:root {
+    --Carafe: #65463E;
+    --Marsala: #9C543C;
+    --Cognac: #95675B;
+    --Tan: #C69C7C;
+}
+
+
+
+/* Page Layout
+========================================================= */
+
 .container {
+    margin-top: 70px;  /* TEST FIXED NAV BAR CAN CHANGE LATER */
+    min-height: 100vh;
     display: grid;
-    
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 5%;
+    grid-gap: 10px;
+    grid-template-areas: 
+        "main sidebar"
+        "footer footer";
+}
+
+.content {
+    grid-area: main;
+    text-align: center;
+    padding-top: 25px;   
+    background: var(--Carafe);
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background:  var(--Marsala);
+}
+
+.footer {
+    grid-area: footer;
+    text-align: center;
+    background: var(--Tan);
+}
+
+/* NavBar
+============================================= */
+
+.navbar {
+    background: var(--Cognac);
+    width: 100%;
+    min-height: 30px;
+    position: fixed;
+    top: 0;   
+}
+
+.navbar-wrap {
+    display: flex;
+    justify-content: flex-end; 
+    width: 80%;
+    margin: 0 auto;
+}
+
+.brand {
+    margin-right: auto;
+}
+
+.nav-items {
+    display: block;
+    margin: auto 0;
+}
+
+.dropdown {
+    margin-right: 20px;
+}
+
+.dropdown-content {
+    position: absolute;
+    display: none; /* Change to block on hover */
 }

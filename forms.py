@@ -52,3 +52,20 @@ class LoginForm(FlaskForm):
         DataRequired()
     ])
 
+
+class CigarForm(FlaskForm):
+    """Form to add new cigar"""
+    cigar_name = StringField('Cigar Name', validators=[
+        DataRequired()
+    ])
+    brand = StringField('Brand Name', validators=[
+        DataRequired()
+    ])
+    body = StringField('Body', validators=[
+        DataRequired()
+    ])
+    wrapper = StringField('Wrapper')
+    binder = StringField('Binder')
+    filler = StringField('Filler')
+    orgin = StringField('Orgin')
+

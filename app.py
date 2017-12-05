@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, redirect, url_for, flash
+from flask import Flask, g, render_template, redirect, url_for, flash, request
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -74,6 +74,36 @@ def logout():
     logout_user()
     flash("You've been loggeout!, come back soon!", "success")
     return redirect(url_for('index'))
+
+@app.route('/new_cigar', methods=('GET','POST'))
+def new_cigar():
+    form = forms.CigarForm()
+    if form.validate_on_submit():
+        flash("You have added a new cigar", "success")
+        models.Cigar.create_cigar(
+            cigar_name = form.cigar_name.data,
+            brand = form.brand.data,
+            body = form.body.data,
+            wrapper = form.wrapper.data,
+            binder = form.binder.data,
+            filler = form.filler.data,
+            orgin = form.orgin.data
+        )          
+        return redirect(url_for('index'))
+    return render_template('new-cigar.html', form=form)
+
+@app.route('/cigar/<cigar_name>')  #Testing Getting indvidual Cigar Pages
+def view_cigar(cigar_name):
+    name = models.Cigar.get(models.Cigar.cigar_name**cigar_name)
+    return "The Cigar Name is {}".format(name.cigar_name)
+
+@app.route('/search')    #SEARCH STILL IN EARLY STAGE
+def search():
+    """used to search database and 'check-in' cigars.  still in very early stages"""
+    keyword = request.args.get('search')
+    results = models.Cigar.select().where(models.Cigar.cigar_name**keyword)
+    return render_template('search.html', keyword=keyword, results=results)
+
 
 @app.route('/')
 def index():
