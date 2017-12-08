@@ -16,6 +16,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
+    
+
 @login_manager.user_loader
 def load_user(userid):
     try:
@@ -76,6 +79,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/new_cigar', methods=('GET','POST'))
+@login_required
 def new_cigar():
     form = forms.CigarForm()
     if form.validate_on_submit():
@@ -92,10 +96,20 @@ def new_cigar():
         return redirect(url_for('index'))
     return render_template('new-cigar.html', form=form)
 
-@app.route('/cigar/<cigar_name>')  #Testing Getting indvidual Cigar Pages
+@app.route('/cigar/<cigar_name>', methods=['GET', 'POST'])  #Testing Getting indvidual Cigar Pages
 def view_cigar(cigar_name):
-    name = models.Cigar.get(models.Cigar.cigar_name**cigar_name)
-    return "The Cigar Name is {}".format(name.cigar_name)
+    form = forms.RatingForm()     
+    if form.validate_on_submit():  
+        cigar = models.Cigar.get(models.Cigar.cigar_name**cigar_name)
+        models.Rate.create(
+            user = g.user._get_current_object(),
+            cigar = cigar, 
+            size = form.size.data,
+            comment = form.comment.data,
+            rating = int(form.rating.data)
+        )   
+        return redirect(url_for('index'))
+    return render_template('rate.html', cigar_name=cigar_name, form=form)
 
 @app.route('/search')    #SEARCH STILL IN EARLY STAGE
 def search():
@@ -107,7 +121,8 @@ def search():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    latest_ratings = models.Rate.select().limit(50)  #selects 50 latest ratings, can change!
+    return render_template('index.html', latest_ratings=latest_ratings)
 
 if __name__ == "__main__":
     models.initialize()

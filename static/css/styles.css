@@ -75,6 +75,31 @@
 }
 
 .dropdown-content {
+    background: var(--Cognac);
     position: absolute;
     display: none; /* Change to block on hover */
+    min-width: 100px;
+    padding-top: 50px;
+    
+}
+
+.dropdown-content a {
+    padding: 1rem;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Search Results
+=========================================== */
+.cigar-item {
+    margin: 0 auto;
+    width: 90%;
+    border-bottom: 1px grey solid;
+}
+
+.cigar-item p {
+    margin: 0;
 }

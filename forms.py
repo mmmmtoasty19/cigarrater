@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, RadioField
 from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo
 
 from models import User
@@ -69,3 +69,17 @@ class CigarForm(FlaskForm):
     filler = StringField('Filler')
     orgin = StringField('Orgin')
 
+
+class RatingForm(FlaskForm):
+    size = SelectField('Cigar Size', choices=[
+        ('Corona','Corona'), ('Petite Corona','Petite Corona'),
+        ('Corona Grand','Corona Grand'), ('Double Corona','Double Corona'),
+        ('Lonsdale','Lonsdale'), ('Robusto','Robusto'),
+        ('Toro','Toro'), ('Churchill','Churchill'), ('Lancero','Lancero'),
+        ('Torpedo','Torpedo'), ('Pyramid','Pyramid'), ('Belicoso','Belicoso'),
+        ('Perfecto','Perfecto') 
+    ])
+    comment = TextAreaField('Comments')
+    rating = RadioField('Rating', 
+        choices=[('1','1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')], validators=[DataRequired()])
+    

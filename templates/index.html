@@ -3,4 +3,17 @@
 {% block content %}
 
 <h1> Welcome to Cigar Rater {% if current_user.is_authenticated %} {{ current_user.username }} {% endif %}</h1>
+
+<h1>Latest Ratings</h1>
+
+{% for rating in latest_ratings %}
+
+<p>
+{{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}}
+<br>
+Rating: {{ rating.rating }}
+</p>
+{% endfor %}
+
+
 {% endblock %}

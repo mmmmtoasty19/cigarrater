@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h1>{{ cigar_name }}</h1>
+
+<form action="" method="POST">
+
+    {{ form.hidden_tag() }}
+    {{ errors }}
+    {{ form.size }}
+
+    {{ form.comment }}
+
+    {{ form.rating }}
+<button type="submit" id='submit'>Rate It</button>
+</form>
+{% endblock %}

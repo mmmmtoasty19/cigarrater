@@ -61,10 +61,28 @@ class Cigar(Model):
                 )
         except IntegrityError:
             raise ValueError("Cigar already exists")
+
+
+
+class Rate(Model):
+    """Model for storing cigar user ratings"""
+    user = ForeignKeyField(User)
+    cigar = ForeignKeyField(Cigar)
+    size = CharField()
+    comment = TextField()
+    rating = IntegerField()
+    timestamp = DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        database = DATABASE
+        order_by = ('-timestamp',)
+    
+   
+
     
 
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Cigar], safe=True)
+    DATABASE.create_tables([User, Cigar, Rate], safe=True)
     DATABASE.close()
