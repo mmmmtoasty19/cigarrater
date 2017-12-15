@@ -11,7 +11,7 @@
 <p>
 {{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}}
 <br>
-Rating: {{ rating.rating }}
+Rating: {{ rating.rating }}<span class="stars" data-rating="{{ rating.rating }}" data-num-stars="5" ></span>
 </p>
 {% endfor %}
 

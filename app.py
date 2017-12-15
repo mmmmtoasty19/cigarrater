@@ -98,9 +98,9 @@ def new_cigar():
 
 @app.route('/cigar/<cigar_name>', methods=['GET', 'POST'])  #Testing Getting indvidual Cigar Pages
 def view_cigar(cigar_name):
-    form = forms.RatingForm()     
-    if form.validate_on_submit():  
-        cigar = models.Cigar.get(models.Cigar.cigar_name**cigar_name)
+    form = forms.RatingForm()    
+    cigar = models.Cigar.get(models.Cigar.cigar_name**cigar_name) 
+    if form.validate_on_submit():          
         models.Rate.create(
             user = g.user._get_current_object(),
             cigar = cigar, 
@@ -109,7 +109,7 @@ def view_cigar(cigar_name):
             rating = int(form.rating.data)
         )   
         return redirect(url_for('index'))
-    return render_template('rate.html', cigar_name=cigar_name, form=form)
+    return render_template('rate.html', form=form, cigar=cigar)
 
 @app.route('/search')    #SEARCH STILL IN EARLY STAGE
 def search():

@@ -2,8 +2,9 @@
 
 
 {% block content %}
-<h1>{{ cigar_name }}</h1>
-
+<h1>{{ cigar.cigar_name }}</h1>
+<h3>Average Rating: {{ cigar.average() }} </h3>
+<h3>Total Ratings : {{ cigar.rating_amount().count() }} </h3>
 <form action="" method="POST">
 
     {{ form.hidden_tag() }}

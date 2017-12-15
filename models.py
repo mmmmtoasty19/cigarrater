@@ -1,7 +1,9 @@
 import datetime
+import hashlib
 
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
+
 
 from peewee import *
 
@@ -31,6 +33,10 @@ class User(UserMixin, Model):
                     is_admin=admin)
         except IntegrityError:
             raise ValueError("User already exists")
+
+    def avatar(self, size):
+        """used to get Gravatar avatar."""
+        return 'http://www.gravatar.com/avatar/{}?d=mm&s={}'.format(hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
 
 
 class Cigar(Model):
@@ -62,7 +68,19 @@ class Cigar(Model):
         except IntegrityError:
             raise ValueError("Cigar already exists")
 
+    def average(self):
+        """returns average rating for cigar"""
+        query = Rate.select().where(Rate.cigar == self)
+        avg_rate = []
+        for rating in query:
+            avg_rate.append(rating.rating)
+        print(avg_rate)
+        return round(sum(avg_rate)/float(len(avg_rate)),1)
+    
+    def rating_amount(self):
+        return Rate.select().where(Rate.cigar == self)
 
+    
 
 class Rate(Model):
     """Model for storing cigar user ratings"""
