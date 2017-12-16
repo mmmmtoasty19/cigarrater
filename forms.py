@@ -15,6 +15,8 @@ def email_exists(form, feild):
 
 
 class RegisterForm(FlaskForm):
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
     username = StringField('Username', validators=[
         DataRequired(), 
         Regexp(r'^[a-zA-Z0-9_]+$', 
@@ -61,6 +63,7 @@ class CigarForm(FlaskForm):
     brand = StringField('Brand Name', validators=[
         DataRequired()
     ])
+    #NEED TO CHANGE TO SELECT FIELD
     body = StringField('Body', validators=[
         DataRequired()
     ])

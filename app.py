@@ -16,7 +16,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
+# models.initialize()  MOVE HERE FOR LIVE WEBAPP
     
 
 @login_manager.user_loader
@@ -49,7 +49,9 @@ def register():
         models.User.create_user(
             username=form.username.data,
             email=form.email.data,
-            password=form.password.data
+            password=form.password.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data
         )
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
@@ -107,7 +109,8 @@ def view_cigar(cigar_name):
             size = form.size.data,
             comment = form.comment.data,
             rating = int(form.rating.data)
-        )   
+        )  
+        models.Cigar.average(cigar) 
         return redirect(url_for('index'))
     return render_template('rate.html', form=form, cigar=cigar)
 
@@ -115,14 +118,15 @@ def view_cigar(cigar_name):
 def search():
     """used to search database and 'check-in' cigars.  still in very early stages"""
     keyword = request.args.get('search')
-    results = models.Cigar.select().where(models.Cigar.cigar_name**keyword)
+    results = models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
     return render_template('search.html', keyword=keyword, results=results)
 
 
 @app.route('/')
 def index():
-    latest_ratings = models.Rate.select().limit(50)  #selects 50 latest ratings, can change!
-    return render_template('index.html', latest_ratings=latest_ratings)
+    latest_ratings = models.Rate.select().limit(20)  #selects 50 latest ratings, can change!
+    top_cigars = models.Cigar.select().order_by(models.Cigar.avg_rating.desc())
+    return render_template('index.html', latest_ratings=latest_ratings, top_cigars=top_cigars)
 
 if __name__ == "__main__":
     models.initialize()

@@ -2,18 +2,54 @@
 
 {% block content %}
 
-<h1> Welcome to Cigar Rater {% if current_user.is_authenticated %} {{ current_user.username }} {% endif %}</h1>
+    <h1> Welcome to Cigar Rater {% if current_user.is_authenticated %} {{ current_user.username }} {% endif %}</h1>
 
-<h1>Latest Ratings</h1>
+    <h1>Latest Ratings</h1>
 
-{% for rating in latest_ratings %}
+    {% for rating in latest_ratings %}
 
-<p>
-{{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}}
-<br>
-Rating: {{ rating.rating }}<span class="stars" data-rating="{{ rating.rating }}" data-num-stars="5" ></span>
-</p>
-{% endfor %}
-
+    <p>
+    {{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}}
+    <br>
+    Rating: {{ rating.rating }}<span class="stars" data-rating="{{ rating.rating }}" data-num-stars="5" ></span>
+    </p>
+    {% endfor %}
 
 {% endblock %}
+
+{% block user_info %}
+    
+    <div class="user_info">
+        
+        <img src="{{current_user.avatar(100)}}" alt="user profile picture" class="user_card_avatar" />
+        
+        <div class="user_name">
+            <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+            <p>&commat; {{ current_user.username }}</p>
+        </div>  
+    </div>
+    <div class="user_numbers">
+        <div>
+            <h3>{{current_user.total_cigar_rating()}}</h3>
+            <p>Total</p> 
+        </div> 
+        <div>
+            <h3>{{current_user.unique_cigar_rating()}}</h3>
+            <p>Unique</p>
+        </div>
+        <div>
+            <h3>[PH]</h3>
+            <p>Friends</p>
+        </div>
+    </div>
+    
+
+{% endblock %}
+
+{% block top_cigars %}
+    <h1>Top Cigars</h1>
+        {% for cigar in top_cigars %}
+            {{ cigar.cigar_name}}
+        {% endfor %}
+{% endblock %}
+

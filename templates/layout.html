@@ -61,7 +61,19 @@
                 {% block content %}
                 {% endblock %}
             </main>
-            <aside class="sidebar">[Additional Content or Menu] </aside>
+            <!-- Shows User info only if current user is Logged in.  Will be moving later to different homepage if not logged in-->
+            <aside class="sidebar">
+                {% if current_user.is_authenticated %}    
+                    <div class="user_info_card"> 
+                        {% block user_info %}
+                        {% endblock %}
+                    </div>
+                {% endif %}
+                <div class="top_cigars">
+                    {% block top_cigars %}
+                    {% endblock %}
+                </div>
+            </aside>
             <footer class="footer"> 
                 <p>A Ratings App built with Flask <br>
                     by <a href="http://belangerbrothers.com">Belanger Brothers</a></p>
