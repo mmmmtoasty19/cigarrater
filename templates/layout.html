@@ -15,7 +15,7 @@
             <nav class="navbar">
                 <div class="navbar-wrap">
                     <div class="brand">
-                        <a href="{{ url_for('index') }}"><h2>Cigar Rater</h2></a>  <!--Brand Place Holder -->
+                        <a href="{{ url_for('index') }}"><h2>Social Stogie</h2></a>  <!--Brand Place Holder -->
                     </div>
                     <div class="nav-items">                  
                         {% if current_user.is_authenticated %}
@@ -80,10 +80,8 @@
             
             </footer>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous">
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaNxYmnJEWRheLD2cjBs4lIbzC113uakU&libraries=places"></script>
         <script type="text/javascript" src="/static/js/cigarrater.js"></script>
     </body>
 </html>

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, RadioField
-from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo
+from wtforms.fields.html5 import DecimalRangeField
+from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo, NumberRange
 
 from models import User
 
@@ -63,10 +64,10 @@ class CigarForm(FlaskForm):
     brand = StringField('Brand Name', validators=[
         DataRequired()
     ])
-    #NEED TO CHANGE TO SELECT FIELD
-    body = StringField('Body', validators=[
+    body = SelectField('Body', validators=[
         DataRequired()
-    ])
+    ], choices=[('Light','Light'),('Medium-Light','Medium-Light'),
+        ('Medium', 'Medium'), ('Medium-Full', 'Medium-Full'), ('Full','Full')])
     wrapper = StringField('Wrapper')
     binder = StringField('Binder')
     filler = StringField('Filler')
@@ -83,6 +84,10 @@ class RatingForm(FlaskForm):
         ('Perfecto','Perfecto') 
     ])
     comment = TextAreaField('Comments')
-    rating = RadioField('Rating', 
-        choices=[('1','1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')], validators=[DataRequired()])
+    rating = DecimalRangeField('Rating', render_kw={'min':1, 'max':5, 'step':1, 'value':3, 'class':'cigar_rating__range'})
+   
+    # old version of rating using radio buttons, have changed to slider.  need to remove later
+    # rating = RadioField('Rating', 
+    #     choices=[('1','1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')], validators=[DataRequired()])
+    
     

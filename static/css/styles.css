@@ -32,9 +32,7 @@ body {
 }
 
 .content {
-    grid-area: main;
-    text-align: center;
-    padding-top: 25px;   
+    grid-area: main;   
 }
 
 .sidebar {
@@ -62,6 +60,7 @@ body {
     min-height: 30px;
     position: fixed;
     top: 0;   
+    z-index: 999;
 }
 
 .navbar-wrap {
@@ -147,6 +146,22 @@ body {
 
 /* Search Results
 =========================================== */
+.tab {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tab button {
+    background: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.search_tab_content {
+    display: none;
+}
+
 .cigar-item {
     margin: 0 auto;
     width: 90%;
@@ -161,8 +176,67 @@ body {
 /* HOME STREAM
 ******************************************************** */
 
+.home_stream {
+    display: flex;
+    flex-direction: column;
+}
+
+.home_stream h2 {
+    padding-left: 1rem;
+    border-bottom: 2px solid pink;
+    width: 80%;
+}
+
+.stream_rating_card {
+    align-self: center;
+    width: 75%;
+}
+
+.comment_rating {
+    position: relative;
+    padding: 0px 10px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: #C69C7C solid 1px;
+}
+
+.comment_rating:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: #FFFFFF transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -10px;
+    left: 15%;
+}
+
+.comment_rating:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: #C69C7C transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    top: -11px;
+    left: 15%;
+}
+
+.rating_size {
+    display: flex;
+    justify-content: space-between;
+}
+
 .stars {
     color: #917122;
+}
+
+.stream_rating_card button {
+    margin-top: 15px;
 }
 
 /* SIDE BAR
@@ -230,4 +304,8 @@ body {
 
 
 
+
+#map {
+    height: 100%;
+}
 

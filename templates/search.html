@@ -2,18 +2,49 @@
 
 
 {% block content %}
-<h1>Results</h1>
+    <form action="{{ url_for('search') }}" method="GET" id="search_form"> 
+        <input type="text" value="{{ keyword }}" name="search" />
+        <input type="hidden" id="sort" name="sort"  value="cigar_name_asc" />
+        <input type="submit" />
+    </form> 
+    <h2 class="">Results</h2>
+    <!-- TABS -->
+    <div class="tab">
+        <button class="searchtabs" onclick="openSearchTab(event, 'Cigars')" id="defaultOpen">Cigars</button>
+        <button class="searchtabs" onclick="openSearchTab(event, 'Brands')">Brands</button>
+    </div>
 
-{% for cigar in results %}
-    <div class="cigar-item">
-        <h2><a href="/cigar/{{ cigar.cigar_name }}">{{cigar.cigar_name }}</a></h2>
-        <p>{{ cigar.brand }}</p>
-        <p>{{ cigar.body }}</p>
-    </div>   
-{% endfor %}
+    <!-- Tab Content -->
+    <div id="Cigars" class="search_tab_content">
+        <p>Sort By
+            <!-- <select class="cigar_sort_options">
+                <option value="cigar_name_asc">Name (A-Z)</option>
+                <option value="cigar_name_desc">Name (Z-A)</option>
+                <option value="most_popular">Most Popular</option>
+                <option value="most_ratings">Most Ratings</option>
+            </select> -->
+            <select class="cigar_sort_options">
+                {% for key, value in sort_options.items() %}
+                    <option value='{{ key }}'>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        {% for cigar in cigar_results %}
+            <div class="cigar-item">
+                <h2><a href="/cigar/{{ cigar.cigar_name }}">{{cigar.cigar_name }}</a></h2>
+                <p>{{ cigar.brand }}</p>
+                <p>{{ cigar.body }}</p>
+            </div>   
+        {% endfor %}
+    </div>
+    <div id="Brands" class="search_tab_content">
+        {% for brand in brand_results %}
+            <h2>{{ brand.brand }}</h2>
+        {% endfor %}
+    </div>
 
-<!-- Allow user to add Cigar if not found -->
-<p>Don't see what you're looking for? <br>
-   <a href="{{ url_for('new_cigar') }}"> Add it here </a>
-</p>
+    <!-- Allow user to add Cigar if not found -->
+    <p>Don't see what you're looking for? <br>
+    <a href="{{ url_for('new_cigar') }}"> Add it here </a>
+    </p>
 {% endblock %}

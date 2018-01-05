@@ -1,19 +1,34 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-    <h1> Welcome to Cigar Rater {% if current_user.is_authenticated %} {{ current_user.username }} {% endif %}</h1>
-
-    <h1>Latest Ratings</h1>
-
-    {% for rating in latest_ratings %}
-
-    <p>
-    {{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}}
-    <br>
-    Rating: {{ rating.rating }}<span class="stars" data-rating="{{ rating.rating }}" data-num-stars="5" ></span>
-    </p>
-    {% endfor %}
+    <div class="home_stream">
+        <h2>Latest Ratings</h2>
+        
+        {% for rating in latest_ratings %}
+            <div class="stream_rating_card">
+                <div>
+                    <img src="{{ rating.user.avatar(50) }}" alt="user avatar" class="stream_avatar">
+                    <p>
+                        {{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}} 
+                        {% if rating.location != 'None' %} 
+                            at {{ rating.get_name(rating.location) }} 
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="comment_rating">
+                    <p class="comment">{{ rating.comment }}</p>
+                    <div class="rating_size">
+                        <p>Rating:<span class="stars" data-rating="{{ rating.rating }}" data-num-stars="5" ></span></p>
+                        <p>Size: {{ rating.size }}</p>
+                    </div>
+                </div>
+                <div>    <!-- Will be used to add comments in future-->
+                    <button>Comment</button>
+                    <button>Like</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 

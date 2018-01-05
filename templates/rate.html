@@ -14,12 +14,27 @@
 <form action="" method="POST">
 
     {{ form.hidden_tag() }}
-    {{ errors }}
+    {{ form.errors }}
     {{ form.size }}
 
     {{ form.comment }}
-
+<div class="cigar_rating_range">
     {{ form.rating }}
+    <span class="cigar_rating__value">0</span>
+</div>
+<div>
+    <p>
+        Location:
+        <select id='rating_location' name='rating_location'>
+            <option value="none">None</option>
+        </select>
+    </p>
+</div>
 <button type="submit" id='submit'>Rate It</button>
 </form>
+
+
+<button id="test_search">Add Location</button>
+
+<div id="map"></div>
 {% endblock %}

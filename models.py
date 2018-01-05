@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import requests
 
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
@@ -9,6 +10,7 @@ from peewee import *
 
 
 DATABASE = SqliteDatabase('cigar.db')  
+
 
 
 # Code for pythonanywhere
@@ -111,12 +113,28 @@ class Rate(Model):
     size = CharField()
     comment = TextField()
     rating = IntegerField()
+    location = CharField()
     timestamp = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         database = DATABASE
         order_by = ('-timestamp',)
     
+
+    def get_name(self,venue_id):
+        """returns name of venue based on ID"""
+        params = {
+        "client_id": 'LRYLMHH5W1GEZYJWGM2XWIBAEOM0HLY5QY0BXJ5UIWFRB0LL',
+        "client_secret" : 'D141PZTEO5QQ40OZZ2OZELACVKDXWKUHRZLVY5EJ5JCWZ12K',
+        "v": 20180103
+        }
+        url = 'https://api.foursquare.com/v2/venues/' + venue_id
+        search_req = requests.get(url=url, params=params)
+        search_json = search_req.json()
+        print(search_json['response']['venue']['name'])
+        return search_json['response']['venue']['name']
+        
+
    
 
     

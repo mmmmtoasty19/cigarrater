@@ -1,7 +1,9 @@
-from flask import Flask, g, render_template, redirect, url_for, flash, request
+from flask import Flask, g, render_template, redirect, url_for, flash, request, jsonify
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
+
+import requests
 import forms
 import models
 
@@ -11,6 +13,7 @@ HOST = '0.0.0.0'
 
 app = Flask(__name__)
 app.secret_key = 'dfa111lkjlksfAF097KKLN1231231209SFDFKJASFMN'
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -108,7 +111,8 @@ def view_cigar(cigar_name):
             cigar = cigar, 
             size = form.size.data,
             comment = form.comment.data,
-            rating = int(form.rating.data)
+            rating = int(form.rating.data),
+            location = request.form['rating_location']
         )  
         models.Cigar.average(cigar) 
         return redirect(url_for('index'))
@@ -118,8 +122,37 @@ def view_cigar(cigar_name):
 def search():
     """used to search database and 'check-in' cigars.  still in very early stages"""
     keyword = request.args.get('search')
-    results = models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
-    return render_template('search.html', keyword=keyword, results=results)
+    sort_options = {'test1' : 'test_1', 'test2' : 'test_2', 'test3' : 'test_3'}
+    cigar_results = models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
+    brand_results = models.Cigar.select().where(models.Cigar.brand.contains(keyword))
+    return render_template('search.html', keyword=keyword, cigar_results=cigar_results, brand_results=brand_results, sort_options=sort_options)
+
+
+#TESTING Location additions
+# Add foursquare wrapper to allow better calls at later time
+@app.route('/sendRequest')  
+def results():
+    params = {
+        "client_id": 'LRYLMHH5W1GEZYJWGM2XWIBAEOM0HLY5QY0BXJ5UIWFRB0LL',
+        "client_secret" : 'D141PZTEO5QQ40OZZ2OZELACVKDXWKUHRZLVY5EJ5JCWZ12K',
+        "ll" : request.args.get('lat') + ',' + request.args.get('lng'),
+        "radius" : 40000,
+        "v": 20180103,
+        "limit" : 15
+    }
+    search_req = requests.get('https://api.foursquare.com/v2/venues/search', params=params)
+    search_json = search_req.json()
+    
+    # print(search_json['response']['venues'])
+    location_ouput = {}
+    for item in search_json['response']['venues']:
+        location_ouput[item['id']] = item['name']
+
+    # print(location_ouput)        
+    
+
+    
+    return jsonify(location_ouput)
 
 
 @app.route('/')
