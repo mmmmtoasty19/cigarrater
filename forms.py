@@ -84,7 +84,7 @@ class RatingForm(FlaskForm):
         ('Perfecto','Perfecto') 
     ])
     comment = TextAreaField('Comments')
-    rating = DecimalRangeField('Rating', render_kw={'min':1, 'max':10, 'step':1, 'value':5, 'class':'cigar_rating__range'})
+    rating = DecimalRangeField('Rating', render_kw={'min':1, 'max':5, 'step':1, 'value':3, 'class':'cigar_rating__range'})
    
     # old version of rating using radio buttons, have changed to slider.  need to remove later
     # rating = RadioField('Rating', 
