@@ -45,37 +45,6 @@
       rangeSlider();
       
 
-// Code for clicking through tabs in search menu (currently only have cigar and brand)
-function openSearchTab(evt, tabName) {
-    var i, tabcontent;
-
-    // Hide all search tabs by default
-    tabcontent = document.getElementsByClassName("search_tab_content")
-    for (i = 0; i < tabcontent.length; i++){
-      tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="searchtabs" and remove the class "active"
-    tablinks = document.getElementsByClassName("searchtabs");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Opens tab for currently click link
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-};
-
-
-
-
-// opens cigar tab by default
-
-$(document).ready(function () { 
-  document.getElementById("defaultOpen").click();
- });
-
-
 
 
 //Get sort type on search page

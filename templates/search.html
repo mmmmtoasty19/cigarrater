@@ -8,24 +8,12 @@
         <input type="submit" />
     </form> 
     <h2 class="">Results</h2>
-    <!-- TABS -->
-    <div class="tab">
-        <button class="searchtabs" onclick="openSearchTab(event, 'Cigars')" id="defaultOpen">Cigars</button>
-        <button class="searchtabs" onclick="openSearchTab(event, 'Brands')">Brands</button>
-    </div>
 
-    <!-- Tab Content -->
-    <div id="Cigars" class="search_tab_content">
-        <p>Sort By
-            <!-- <select class="cigar_sort_options">
-                <option value="cigar_name_asc">Name (A-Z)</option>
-                <option value="cigar_name_desc">Name (Z-A)</option>
-                <option value="most_popular">Most Popular</option>
-                <option value="most_ratings">Most Ratings</option>
-            </select> -->
+    <div id="Cigars">
+        <p>Sort By:
             <select class="cigar_sort_options">
                 {% for key, value in sort_options.items() %}
-                    <option value='{{ key }}'>{{ value }}</option>
+                    <option value='{{ key }}' {% if sort_filter == key %}selected{%endif%} >{{ value }}</option>
                 {% endfor %}
             </select>
         </p>
@@ -34,12 +22,8 @@
                 <h2><a href="/cigar/{{ cigar.cigar_name }}">{{cigar.cigar_name }}</a></h2>
                 <p>{{ cigar.brand }}</p>
                 <p>{{ cigar.body }}</p>
+                <p>{{ cigar.avg_rating }}</p>
             </div>   
-        {% endfor %}
-    </div>
-    <div id="Brands" class="search_tab_content">
-        {% for brand in brand_results %}
-            <h2>{{ brand.brand }}</h2>
         {% endfor %}
     </div>
 

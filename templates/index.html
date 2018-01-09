@@ -9,8 +9,8 @@
                 <div>
                     <img src="{{ rating.user.avatar(50) }}" alt="user avatar" class="stream_avatar">
                     <p>
-                        {{ rating.user.username }} is smoking a {{rating.cigar.cigar_name}} by {{rating.cigar.brand}} 
-                        {% if rating.location != 'None' %} 
+                        <a href="#">{{ rating.user.username }}</a> is smoking a <a href=" {{ url_for('view_cigar',cigar_name= rating.cigar.cigar_name) }}">{{rating.cigar.cigar_name}}</a> by <a href="#">{{rating.cigar.brand}}</a> 
+                        {% if rating.location != 'none' %} 
                             at {{ rating.get_name(rating.location) }} 
                         {% endif %}
                     </p>
@@ -32,39 +32,13 @@
 
 {% endblock %}
 
-{% block user_info %}
-    
-    <div class="user_info">
-        
-        <img src="{{current_user.avatar(100)}}" alt="user profile picture" class="user_card_avatar" />
-        
-        <div class="user_name">
-            <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
-            <p>&commat; {{ current_user.username }}</p>
-        </div>  
-    </div>
-    <div class="user_numbers">
-        <div>
-            <h3>{{current_user.total_cigar_rating()}}</h3>
-            <p>Total</p> 
-        </div> 
-        <div>
-            <h3>{{current_user.unique_cigar_rating()}}</h3>
-            <p>Unique</p>
-        </div>
-        <div>
-            <h3>[PH]</h3>
-            <p>Friends</p>
-        </div>
-    </div>
-    
 
-{% endblock %}
-
-{% block top_cigars %}
+{% block additional_sidebar %}
+    <div class="top_cigars">
     <h1>Top Cigars</h1>
         {% for cigar in top_cigars %}
             {{ cigar.cigar_name}}
         {% endfor %}
+    </div>
 {% endblock %}
 

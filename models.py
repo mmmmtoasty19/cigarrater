@@ -131,7 +131,7 @@ class Rate(Model):
         url = 'https://api.foursquare.com/v2/venues/' + venue_id
         search_req = requests.get(url=url, params=params)
         search_json = search_req.json()
-        print(search_json['response']['venue']['name'])
+        # print(search_json['response']['venue']['name'])
         return search_json['response']['venue']['name']
         
 

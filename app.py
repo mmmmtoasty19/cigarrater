@@ -121,12 +121,31 @@ def view_cigar(cigar_name):
 @app.route('/search')    #SEARCH STILL IN EARLY STAGE
 def search():
     """used to search database and 'check-in' cigars.  still in very early stages"""
+    # sort_filter, being used to set select box equal to page parameters, need to adjust
     keyword = request.args.get('search')
-    sort_options = {'test1' : 'test_1', 'test2' : 'test_2', 'test3' : 'test_3'}
-    cigar_results = models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
-    brand_results = models.Cigar.select().where(models.Cigar.brand.contains(keyword))
-    return render_template('search.html', keyword=keyword, cigar_results=cigar_results, brand_results=brand_results, sort_options=sort_options)
+    sort_filter = None 
+    sort_options = {                     #Used to pass options to select box 
+        'cigar_name_asc' : 'Name (A-Z)',
+        'cigar_name_dsc' : 'Name (Z-A)',
+        'highest_rating' : 'Highest Rating'
+        }
+    result_order = models.Cigar.cigar_name   
+    if request.args.get('sort'):
+        sort_filter = request.args.get('sort')
+        if sort_filter == 'cigar_name_dsc':
+            result_order = models.Cigar.cigar_name.desc()
+        elif sort_filter == 'highest_rating':
+            result_order = models.Cigar.avg_rating.desc()
+        else:
+            pass  #Allow for more sorts later
+        cigar_results = (models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
+        .order_by(result_order))
+    else:
+        cigar_results = (models.Cigar.select().where(models.Cigar.cigar_name.contains(keyword))
+    .order_by(result_order))
 
+    
+    return render_template('search.html', keyword=keyword, cigar_results=cigar_results, sort_options=sort_options, sort_filter=sort_filter)
 
 #TESTING Location additions
 # Add foursquare wrapper to allow better calls at later time
@@ -157,7 +176,7 @@ def results():
 
 @app.route('/')
 def index():
-    latest_ratings = models.Rate.select().limit(20)  #selects 50 latest ratings, can change!
+    latest_ratings = models.Rate.select().limit(20)  #selects 20 latest ratings, can change!
     top_cigars = models.Cigar.select().order_by(models.Cigar.avg_rating.desc())
     return render_template('index.html', latest_ratings=latest_ratings, top_cigars=top_cigars)
 

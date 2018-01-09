@@ -38,7 +38,7 @@
                     </div>
                     <div class="search">
                         <form action="{{ url_for('search') }}" method="GET"> 
-                            <input type="text" placeholder="Find a Cigar or Brand" name="search" />
+                            <input type="text" placeholder="Find a Cigar" name="search" />
                             <button type="submit"><i class="fas fa-search"></i></button>
                         </form> 
                     </div>
@@ -65,14 +65,34 @@
             <aside class="sidebar">
                 {% if current_user.is_authenticated %}    
                     <div class="user_info_card"> 
-                        {% block user_info %}
-                        {% endblock %}
+                        <div class="user_info">
+        
+                            <img src="{{current_user.avatar(100)}}" alt="user profile picture" class="user_card_avatar" />
+                            
+                            <div class="user_name">
+                                <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+                                <p>&commat; {{ current_user.username }}</p>
+                            </div>  
+                        </div>
+                        <div class="user_numbers">
+                            <div>
+                                <h3>{{current_user.total_cigar_rating()}}</h3>
+                                <p>Total</p> 
+                            </div> 
+                            <div>
+                                <h3>{{current_user.unique_cigar_rating()}}</h3>
+                                <p>Unique</p>
+                            </div>
+                            <div>
+                                <h3>[PH]</h3>
+                                <p>Friends</p>
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
-                <div class="top_cigars">
-                    {% block top_cigars %}
-                    {% endblock %}
-                </div>
+                {% block additional_sidebar %}
+                <!-- Additonal Side Bar Content -->
+                {% endblock %}
             </aside>
             <footer class="footer"> 
                 <p>A Ratings App built with Flask <br>
