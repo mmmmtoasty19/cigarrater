@@ -23,6 +23,7 @@ DATABASE = SqliteDatabase('cigar.db')
 
 
 class User(UserMixin, Model):
+    """Website User Class, requires unique username and email"""
     username = CharField(unique=True)
     first_name = CharField()
     last_name = CharField()
@@ -34,7 +35,7 @@ class User(UserMixin, Model):
     class Meta:
         database = DATABASE
         order_by = ('-joined_at',)
-    
+
     @classmethod
     def create_user(cls, username, email, password, first_name, last_name, admin=False):
         try:
@@ -51,7 +52,8 @@ class User(UserMixin, Model):
 
     def avatar(self, size):
         """used to get Gravatar avatar."""
-        return 'http://www.gravatar.com/avatar/{}?d=mm&s={}'.format(hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
+        return ('http://www.gravatar.com/avatar/{}?d=mm&s={}'.format(
+            hashlib.md5(self.email.encode('utf-8')).hexdigest(), size))
 
     def total_cigar_rating(self):
         return Rate.select(fn.Count(Rate.cigar)).where(Rate.user==self).scalar()

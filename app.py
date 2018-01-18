@@ -177,7 +177,7 @@ def results():
 @app.route('/')
 def index():
     latest_ratings = models.Rate.select().limit(20)  #selects 20 latest ratings, can change!
-    top_cigars = models.Cigar.select().order_by(models.Cigar.avg_rating.desc())
+    top_cigars = models.Cigar.select().order_by(models.Cigar.avg_rating.desc()).limit(10)
     return render_template('index.html', latest_ratings=latest_ratings, top_cigars=top_cigars)
 
 if __name__ == "__main__":
